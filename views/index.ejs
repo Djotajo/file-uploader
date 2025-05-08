@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Uploader</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <% if (locals.user) {%>
+      <h1>Welcome back <%= user.username %>!</h1>
+      <br />
+      <form action="/message" method="POST" class="messageForm">
+        <label for="title">Title</label>
+        <input id="title" name="title" placeholder="Title" type="text" />
+        <label for="text">Text</label>
+        <!-- <input id="text" name="text" placeholder="Text" type="text" /> -->
+        <textarea name="text" id="text" rows="10"></textarea>
+        <label for="authorID"></label>
+        <input
+          id="authorID"
+          name="authorID"
+          placeholder="authorID"
+          type="hidden"
+          value="<%=user.id%>"
+        />
+        <button type="submit">Post</button>
+      </form>
+      <% if (!locals.user.member_status) {%>
+      <br />
+      <a href="/member">Join the secret members club</a>
+      <%}%>
+      <br />
+      <a href="/logout">LOG OUT</a>
+      <% } else { %>
+      <h1>Please log in stranger. This is a members only zone.</h1>
+      <form action="/login" method="POST">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          name="username"
+          placeholder="username"
+          type="text"
+        />
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" />
+        <button type="submit">Log In</button>
+      </form>
+      <a href="/signup">No Account? Sign Up</a>
+      <%}%>
+    </main>
+    <%- include('partials/footer') %>
+  </body>
+</html>
