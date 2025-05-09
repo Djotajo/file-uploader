@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign-Up Form</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1>So you want to join the club huh?</h1>
+      <%- include("partials/errors.ejs") %>
+      <form method="POST" action="/signup" class="new-member-form">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Username"
+        />
+
+        <label for="password">Password </label>
+        <span>
+          (at least 8 characters including 1 lowercase letter, 1 uppercase
+          letter, 1 number, and 1 symbol)
+        </span>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="password"
+          required
+        />
+
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          name="confirmPassword"
+          id="confirmPassword"
+          placeholder="Confirm password"
+          required
+        />
+
+        <button type="submit">Submit</button>
+      </form>
+      <a href="../">Already have an account? Sign in here</a>
+    </main>
+    <%- include('partials/footer') %>
+  </body>
+</html>

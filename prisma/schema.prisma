@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -18,6 +17,7 @@ model Session {
   id        String   @id
   sid       String   @unique
   expiresAt DateTime
+  data      String?
 }
 
 model User {

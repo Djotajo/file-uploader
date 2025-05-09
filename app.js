@@ -17,7 +17,7 @@ const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
 
 const indexRouter = require("./routes/indexRouter");
-// const signupRouter = require("./routes/signupRouter");
+const signupRouter = require("./routes/signupRouter");
 
 app.use(
   expressSession({
@@ -49,7 +49,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/", indexRouter);
-// app.use("/signup", signupRouter);
+app.use("/signup", signupRouter);
 // app.get("/welcome", (req, res) => res.render("welcome"));
 
 // Local Strategy - TOP
