@@ -2,7 +2,7 @@ const { Router } = require("express");
 
 const indexRouter = Router();
 
-// const db = require("../db/queries");
+const db = require("../db/queries");
 
 // const newMessageController = require("../controllers/newMessageController");
 // const newUserController = require("../controllers/newUserController");
@@ -19,14 +19,14 @@ indexRouter.get("/", async (req, res) => {
   res.render("index", { user: req.user });
 });
 
-// indexRouter.get("/logout", (req, res, next) => {
-//   req.logout((err) => {
-//     if (err) {
-//       return next(err);
-//     }
-//     res.redirect("/");
-//   });
-// });
+indexRouter.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
 
 // indexRouter.post("/membership", newUserController.newMemberValidate);
 

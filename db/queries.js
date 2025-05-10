@@ -9,7 +9,7 @@ const prisma = require("./prisma");
 async function postNewUser(username, hashedPassword) {
   try {
     await prisma.user.create({
-      data: { name: username, passwordHash: hashedPassword },
+      data: { username: username, passwordHash: hashedPassword },
     });
     return { success: true };
   } catch (error) {
@@ -18,6 +18,29 @@ async function postNewUser(username, hashedPassword) {
   }
 }
 
+async function getUser(username) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { username: username },
+    });
+    return user;
+  } catch (error) {
+    console.error("Database error:", error);
+    return { success: false, error };
+  }
+}
+
+async function getUserById(id) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: id },
+    });
+    return user;
+  } catch (error) {
+    console.error("Database error:", error);
+    return { success: false, error };
+  }
+}
 // async function getUser(username) {
 //   const user = await sql`SELECT * FROM members WHERE username = ${username}`;
 //   return user;
@@ -46,4 +69,6 @@ async function postNewUser(username, hashedPassword) {
 
 module.exports = {
   postNewUser,
+  getUser,
+  getUserById,
 };

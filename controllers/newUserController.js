@@ -42,19 +42,12 @@ exports.newUserCreate = [
       });
     }
     try {
-      const { firstName, lastName, username, password } = req.body;
-      const isAdmin = req.body.isAdmin === "on";
+      const { username, password } = req.body;
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      await db.postNewMember(
-        firstName,
-        lastName,
-        username,
-        hashedPassword,
-        isAdmin
-      );
-      return res.redirect("/welcome");
+      await db.postNewUser(username, hashedPassword);
+      return res.redirect("/");
     } catch (error) {
       console.error("Error creating user:", error);
       return res.status(500).render("form", {

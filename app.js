@@ -3,7 +3,7 @@ const app = express();
 require("dotenv").config();
 const path = require("node:path");
 const http = require("http");
-// const db = require("./db/queries");
+const db = require("./db/queries");
 const { neon } = require("@neondatabase/serverless");
 const bcrypt = require("bcryptjs");
 const sql = neon(process.env.DATABASE_URL);
@@ -56,13 +56,13 @@ app.use("/signup", signupRouter);
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const result = await db.getUser(username);
-      const user = result[0];
+      const user = await db.getUser(username);
+
       if (!user) {
         console.log("no user");
         return done(null, false, { message: "Incorrect username" });
       }
-      const match = await bcrypt.compare(password, user.password_hashed);
+      const match = await bcrypt.compare(password, user.passwordHash);
 
       if (!match) {
         // passwords do not match!
@@ -82,8 +82,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const result = await db.getUserById(id);
-    const user = result[0];
+    const user = await db.getUserById(id);
 
     done(null, user);
   } catch (err) {

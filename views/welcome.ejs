@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Members Only</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Welcome</h1>
+      <% if (locals.currentUser) {%>
+      <p class="messageAuthor">
+        and congratulations on becoming fresh blood.. I mean a member
+      </p>
+      <%}%>
+      <a href="../">Go home</a>
+    </main>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>
