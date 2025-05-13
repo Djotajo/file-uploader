@@ -16,6 +16,20 @@ const expressSession = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
 
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "uploads"));
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, file.originalname + "-" + uniqueSuffix);
+  },
+});
+
+const upload = multer({ storage: storage });
+
 const indexRouter = require("./routes/indexRouter");
 const signupRouter = require("./routes/signupRouter");
 
@@ -34,6 +48,13 @@ app.use(
     }),
   })
 );
+
+app.post("/profile", upload.single("file"), function (req, res, next) {
+  console.log(req.file);
+  res.redirect("/");
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
+});
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");

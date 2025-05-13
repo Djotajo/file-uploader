@@ -41,6 +41,26 @@ async function getUserById(id) {
     return { success: false, error };
   }
 }
+
+async function postNewFolder(title, ownerId, parentId = null) {
+  try {
+    const data = {
+      title,
+      owner: { connect: { id: ownerId } },
+    };
+
+    if (parentId) {
+      data.parent = { connect: { id: parentId } };
+    }
+
+    await prisma.folder.create({ data });
+    return { success: true };
+  } catch (error) {
+    console.error("Database error:", error);
+    return { success: false, error };
+  }
+}
+
 // async function getUser(username) {
 //   const user = await sql`SELECT * FROM members WHERE username = ${username}`;
 //   return user;
@@ -69,6 +89,7 @@ async function getUserById(id) {
 
 module.exports = {
   postNewUser,
+  postNewFolder,
   getUser,
   getUserById,
 };

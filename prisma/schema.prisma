@@ -26,6 +26,7 @@ model User {
   passwordHash String
   createdAt    DateTime @default(now())
   File         File[]
+  Folder       Folder[]
 }
 
 model File {
@@ -35,4 +36,17 @@ model File {
   uploadedAt DateTime @default(now())
   uploader   User     @relation(fields: [uploaderId], references: [id])
   uploaderId String
+}
+
+model Folder {
+  id        String   @id @default(uuid())
+  title     String
+  createdAt DateTime @default(now())
+  owner     User     @relation(fields: [ownerId], references: [id])
+  ownerId   String
+
+  parent   Folder? @relation("FolderHierarchy", fields: [parentId], references: [id])
+  parentId String?
+
+  children Folder[] @relation("FolderHierarchy")
 }
