@@ -11,7 +11,12 @@
       <% if (locals.user) {%>
       <h1>Welcome back <%= user.username %>!</h1>
       <br />
+      <ul>
+        <% root.children.forEach((child) => { %>
+        <li><%= child.title %> <%= child.createdAt %></li>
 
+        <% }); %>
+      </ul>
       <form action="/profile" method="post" enctype="multipart/form-data">
         <input type="file" name="file" />
         <button type="submit">Post</button>

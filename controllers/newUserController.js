@@ -46,7 +46,9 @@ exports.newUserCreate = [
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      await db.postNewUser(username, hashedPassword);
+      const newUser = await db.postNewUser(username, hashedPassword);
+      await db.postRootFolder(newUser.id);
+
       return res.redirect("/");
     } catch (error) {
       console.error("Error creating user:", error);

@@ -8,13 +8,13 @@ const prisma = require("./prisma");
 
 async function postNewUser(username, hashedPassword) {
   try {
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: { username: username, passwordHash: hashedPassword },
     });
-    return { success: true };
+    return user;
   } catch (error) {
     console.error("Database error:", error);
-    return { success: false, error };
+    throw error;
   }
 }
 
@@ -42,6 +42,42 @@ async function getUserById(id) {
   }
 }
 
+async function postRootFolder(userId) {
+  try {
+    await prisma.folder.create({
+      data: {
+        title: "Root",
+        owner: { connect: { id: userId } },
+        // No parent => this is the root folder
+      },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Database error:", error);
+    return { success: false, error };
+  }
+}
+
+async function getRootFolder(userId) {
+  try {
+    const root = await prisma.folder.findFirst({
+      where: {
+        ownerId: userId,
+        parentId: null,
+        // No parent => this is the root folder
+      },
+      include: {
+        children: true,
+      },
+    });
+    console.log(root);
+    return root;
+  } catch (error) {
+    console.error("Database error:", error);
+    throw error;
+  }
+}
+
 async function postNewFolder(title, ownerId, parentId = null) {
   try {
     const data = {
@@ -61,26 +97,19 @@ async function postNewFolder(title, ownerId, parentId = null) {
   }
 }
 
-// async function getUser(username) {
-//   const user = await sql`SELECT * FROM members WHERE username = ${username}`;
-//   return user;
-// }
-
-// async function getUserById(id) {
-//   const user = await sql`SELECT * FROM members WHERE id = ${id}`;
-//   return user;
-// }
-
-// async function getAllMessages() {
-//   const messages =
-//     await sql`SELECT messages.title, messages.text, messages.id FROM messages`;
-//   return messages;
-// }
-
-// async function postNewMessage(title, text, authorID) {
-//   await sql`INSERT INTO messages(title, text, author) VALUES (${title}, ${text}, ${authorID})`;
-//   return;
-// }
+async function getFolderById(id) {
+  try {
+    const folder = await prisma.folder.findUnique({
+      where: { id: id },
+      include: { children: true },
+    });
+    console.log(folder);
+    return folder;
+  } catch (error) {
+    console.error("Database error:", error);
+    return { success: false, error };
+  }
+}
 
 // async function postDeleteMessage(id) {
 //   await sql`DELETE FROM messages WHERE id = ${id}`;
@@ -89,7 +118,10 @@ async function postNewFolder(title, ownerId, parentId = null) {
 
 module.exports = {
   postNewUser,
-  postNewFolder,
   getUser,
   getUserById,
+  postRootFolder,
+  postNewFolder,
+  getRootFolder,
+  getFolderById,
 };

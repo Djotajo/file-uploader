@@ -16,7 +16,8 @@ const db = require("../db/queries");
 indexRouter.get("/", async (req, res) => {
   // const messages = await db.getAllMessagesAndAuthors();
   // res.render("index", { user: req.user, messages: messages });
-  res.render("index", { user: req.user });
+  const root = await db.getRootFolder(req.user.id);
+  res.render("index", { user: req.user, root: root });
 });
 
 indexRouter.get("/logout", (req, res, next) => {
