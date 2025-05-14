@@ -17,7 +17,26 @@ indexRouter.get("/", async (req, res) => {
   // const messages = await db.getAllMessagesAndAuthors();
   // res.render("index", { user: req.user, messages: messages });
   const root = await db.getRootFolder(req.user.id);
-  res.render("index", { user: req.user, root: root });
+  res.render("index", { user: req.user, folder: root });
+});
+
+indexRouter.get("/:folderId/", async (req, res) => {
+  try {
+    const { folderId } = req.params;
+    // const { model } = req.params;
+    const folder = await db.getFolderById(folderId);
+    res.render("index", { user: req.user, folder: folder });
+    // res.render("layout", {
+    //   title: model,
+    //   content: "item",
+    //   item: item,
+    //   baseUrl: req.originalUrl,
+    //   back: `/categories/types/${typeName}`,
+    // });
+  } catch (error) {
+    console.error("Error fetching types:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 indexRouter.get("/logout", (req, res, next) => {

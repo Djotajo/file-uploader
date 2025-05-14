@@ -11,9 +11,15 @@
       <% if (locals.user) {%>
       <h1>Welcome back <%= user.username %>!</h1>
       <br />
+      <% if (folder.parentId) {%>
+      <button><a href="/<%= folder.parentId %>/">Go back</a></button>
+      <% }; %>
       <ul>
-        <% root.children.forEach((child) => { %>
-        <li><%= child.title %> <%= child.createdAt %></li>
+        <% folder.children.forEach((child) => { %>
+        <li>
+          <%= child.title %> <%= child.createdAt %>
+          <button><a href="/<%= child.id %>/"><%= child.title %></a></button>
+        </li>
 
         <% }); %>
       </ul>
@@ -22,10 +28,6 @@
         <button type="submit">Post</button>
       </form>
 
-      <% if (!locals.user.member_status) {%>
-      <br />
-      <a href="/member">Join the secret members club</a>
-      <%}%>
       <br />
       <a href="/logout">LOG OUT</a>
       <% } else { %>
