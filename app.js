@@ -19,19 +19,19 @@ const { PrismaClient } = require("@prisma/client");
 
 app.use(express.static(path.join(__dirname, "public")));
 
-const multer = require("multer");
+// const multer = require("multer");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "uploads"));
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.originalname + "-" + uniqueSuffix);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, path.join(__dirname, "uploads"));
+//   },
+//   filename: function (req, file, cb) {
+//     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+//     cb(null, file.originalname + "-" + uniqueSuffix);
+//   },
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
 const indexRouter = require("./routes/indexRouter");
 const signupRouter = require("./routes/signupRouter");
@@ -52,12 +52,17 @@ app.use(
   })
 );
 
-app.post("/profile", upload.single("file"), function (req, res, next) {
-  console.log(req.file);
-  res.redirect("/");
-  // req.file is the `avatar` file
-  // req.body will hold the text fields, if there were any
-});
+// app.post("/profile", upload.single("file"), async function (req, res, next) {
+//   console.log(req.file.filename);
+//   console.log(req.file.destination);
+//   await db.postNewFile(
+//     req.file.filename,
+//     req.file.destination,
+//     "55abad91-39fa-488e-9f9a-40932a33b611",
+//     "11111"
+//   );
+//   res.redirect("/");
+// });
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");

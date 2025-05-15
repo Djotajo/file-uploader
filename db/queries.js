@@ -111,6 +111,27 @@ async function getFolderById(id) {
   }
 }
 
+async function postNewFile(title, link, uploaderId, parentId) {
+  try {
+    const data = {
+      title,
+      link,
+      uploader: { connect: { id: uploaderId } },
+      parent: { connect: { id: parentId } },
+    };
+
+    // if (parentId) {
+    //   data.parent = { connect: { id: parentId } };
+    // }
+
+    await prisma.file.create({ data });
+    return { success: true };
+  } catch (error) {
+    console.error("Database error:", error);
+    return { success: false, error };
+  }
+}
+
 // async function postDeleteMessage(id) {
 //   await sql`DELETE FROM messages WHERE id = ${id}`;
 //   return;
@@ -124,4 +145,5 @@ module.exports = {
   postNewFolder,
   getRootFolder,
   getFolderById,
+  postNewFile,
 };
