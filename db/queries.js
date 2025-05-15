@@ -101,7 +101,7 @@ async function getFolderById(id) {
   try {
     const folder = await prisma.folder.findUnique({
       where: { id: id },
-      include: { children: true },
+      include: { children: true, files: true },
     });
     console.log(folder);
     return folder;

@@ -39,6 +39,29 @@ indexRouter.get("/:folderId/", async (req, res) => {
   }
 });
 
+indexRouter.post("/:parentId/add-folder", async (req, res) => {
+  try {
+    const { title, parentId } = req.body;
+    console.log(req.body);
+    console.log(title);
+    console.log(parentId);
+    await db.postNewFolder(title, req.user.id, parentId);
+    // const { model } = req.params;
+    const folder = await db.getFolderById(parentId);
+    res.render("index", { user: req.user, folder: folder });
+    // res.render("layout", {
+    //   title: model,
+    //   content: "item",
+    //   item: item,
+    //   baseUrl: req.originalUrl,
+    //   back: `/categories/types/${typeName}`,
+    // });
+  } catch (error) {
+    console.error("Error fetching types:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 indexRouter.get("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) {

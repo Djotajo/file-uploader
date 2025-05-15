@@ -1,7 +1,8 @@
 const express = require("express");
+const path = require("node:path");
 const app = express();
 require("dotenv").config();
-const path = require("node:path");
+
 const http = require("http");
 const db = require("./db/queries");
 const { neon } = require("@neondatabase/serverless");
@@ -15,6 +16,8 @@ const LocalStrategy = require("passport-local").Strategy;
 const expressSession = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
+
+app.use(express.static(path.join(__dirname, "public")));
 
 const multer = require("multer");
 

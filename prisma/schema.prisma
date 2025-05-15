@@ -31,11 +31,15 @@ model User {
 
 model File {
   id         Int      @id @default(autoincrement())
-  title      String   @unique
+  title      String
   link       String
   uploadedAt DateTime @default(now())
   uploader   User     @relation(fields: [uploaderId], references: [id])
   uploaderId String
+  parent     Folder   @relation(fields: [parentId], references: [id])
+  parentId   String
+
+  @@unique([title, parentId])
 }
 
 model Folder {
@@ -49,4 +53,5 @@ model Folder {
   parentId String?
 
   children Folder[] @relation("FolderHierarchy")
+  files    File[]
 }

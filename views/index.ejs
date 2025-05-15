@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>File Uploader</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
   </head>
   <body>
     <main>
@@ -17,12 +21,47 @@
       <ul>
         <% folder.children.forEach((child) => { %>
         <li>
-          <%= child.title %> <%= child.createdAt %>
+          <i class="fa-solid fa-folder"></i>
+          <%= child.title %> <%= child.createdAt.toLocaleString("en-US", {
+          dateStyle: "short", timeStyle: "short", }); %>
           <button><a href="/<%= child.id %>/"><%= child.title %></a></button>
         </li>
 
         <% }); %>
       </ul>
+      <ul>
+        <% folder.files.forEach((file) => { %>
+        <li>
+          <i class="fa-solid fa-file"></i>
+          <%= file.title %> <%= file.uploadedAt.toLocaleString("en-US", {
+          dateStyle: "short", timeStyle: "short", }); %>
+          <button><a href="/<%= file.link %>/"><%= file.title %></a></button>
+        </li>
+
+        <% }); %>
+      </ul>
+
+      <!-- Button to open modal -->
+      <button onclick="openModal()">➕ Add Folder</button>
+
+      <!-- Modal Overlay -->
+      <div id="modalOverlay" class="modal-overlay">
+        <div class="modal-content">
+          <h2>Create New Folder</h2>
+          <form action="/<%= folder.id %>/add-folder" method="POST">
+            <input
+              type="text"
+              name="title"
+              placeholder="Folder name"
+              required
+            />
+            <!-- optional hidden input for parentId if needed -->
+            <input type="hidden" name="parentId" value="<%= folder.id %>" />
+            <button type="submit">Create</button>
+            <button type="button" onclick="closeModal()">Cancel</button>
+          </form>
+        </div>
+      </div>
       <form action="/profile" method="post" enctype="multipart/form-data">
         <input type="file" name="file" />
         <button type="submit">Post</button>
@@ -49,4 +88,14 @@
     </main>
     <%- include('partials/footer') %>
   </body>
+
+  <script>
+    function openModal() {
+      document.getElementById("modalOverlay").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("modalOverlay").style.display = "none";
+    }
+  </script>
 </html>
