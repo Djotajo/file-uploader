@@ -43,7 +43,7 @@ app.use(
     },
     secret: process.env.SESSION_SECRET,
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: new PrismaSessionStore(new PrismaClient(), {
       checkPeriod: 2 * 60 * 1000, //ms
       dbRecordIdIsSessionId: true,
@@ -77,8 +77,23 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", indexRouter);
 app.use("/signup", signupRouter);
+
+app.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  })
+);
+// Local Strategy - TOP
+
+app.listen(PORT, () => {
+  console.log(`App running on port ${PORT}`);
+});
+
+app.use("/", indexRouter);
+
 // app.get("/welcome", (req, res) => res.render("welcome"));
 
 // Local Strategy - TOP
@@ -117,17 +132,4 @@ passport.deserializeUser(async (id, done) => {
   } catch (err) {
     done(err);
   }
-});
-
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
-  })
-);
-// Local Strategy - TOP
-
-app.listen(PORT, () => {
-  console.log(`App running on port ${PORT}`);
 });

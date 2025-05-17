@@ -9,13 +9,40 @@ const supabase = require("../middleware/supabase");
 
 const formatFileSize = require("../middleware/size");
 
-indexRouter.get("/", async (req, res) => {
-  const root = await db.getRootFolder(req.user.id);
-  res.render("index", {
-    user: req.user,
-    folder: root,
-    format: formatFileSize,
+indexRouter.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Session destruction failed:", err);
+        return res.status(500).send("Could not log out.");
+      }
+
+      res.clearCookie("my-session");
+      res.redirect("/");
+    });
   });
+});
+
+indexRouter.get("/", async (req, res) => {
+  if (req.user) {
+    console.log(req.user);
+    const root = await db.getRootFolder(req.user.id);
+    res.render("index", {
+      user: req.user,
+      folder: root,
+      format: formatFileSize,
+    });
+  } else {
+    res.render("index");
+  }
+  // const root = await db.getRootFolder(req.user.id);
+  // res.render("index", {
+  //   user: req.user,
+  //   folder: root,
+  //   format: formatFileSize,
+  // });
 });
 
 indexRouter.get("/:folderId/", async (req, res) => {
@@ -91,14 +118,5 @@ indexRouter.post(
     // });
   }
 );
-
-indexRouter.get("/logout", (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/");
-  });
-});
 
 module.exports = indexRouter;

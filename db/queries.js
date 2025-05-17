@@ -68,6 +68,7 @@ async function getRootFolder(userId) {
       },
       include: {
         children: true,
+        files: true,
       },
     });
     console.log(root);

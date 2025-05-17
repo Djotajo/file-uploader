@@ -11,14 +11,16 @@
     />
   </head>
   <body>
+    <form action="/signup" method="GET">
+      <button type="submit">Go to Signup</button>
+    </form>
     <main>
-      <% if (locals.user) {%>
+      <% if (currentUser) {%>
       <h1>Welcome back <%= user.username %>!</h1>
       <br />
-      <% if (folder.parentId) {%>
+      <% if (folder) {%> <% if (folder.parentId) {%>
       <button><a href="/<%= folder.parentId %>/">Go back</a></button>
       <% }; %>
-      <ul></ul>
       <ul class="folders-and-files">
         <li>
           <p>Name</p>
@@ -51,7 +53,6 @@
             timeStyle: "short", }); %>
           </p>
         </li>
-
         <% }); %>
       </ul>
 
@@ -91,7 +92,7 @@
         <input type="hidden" name="parentId" value="<%= folder.id %>" />
         <button type="submit">Post</button>
       </form>
-
+      <% }%>
       <br />
       <a href="/logout">LOG OUT</a>
       <% } else { %>
