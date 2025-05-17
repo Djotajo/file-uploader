@@ -18,24 +18,38 @@
       <% if (folder.parentId) {%>
       <button><a href="/<%= folder.parentId %>/">Go back</a></button>
       <% }; %>
-      <ul>
+      <ul></ul>
+      <ul class="folders-and-files">
+        <li>
+          <p>Name</p>
+          <p>Size</p>
+          <p>Created at</p>
+          <p>Delete</p>
+        </li>
         <% folder.children.forEach((child) => { %>
         <li>
-          <i class="fa-solid fa-folder"></i>
-          <%= child.title %> <%= child.createdAt.toLocaleString("en-US", {
-          dateStyle: "short", timeStyle: "short", }); %>
-          <button><a href="/<%= child.id %>/"><%= child.title %></a></button>
+          <p>
+            <i class="fa-solid fa-folder"></i>
+            <a href="/<%= child.id %>/"><%= child.title %></a>
+          </p>
+          <p>-</p>
+          <p>
+            <%= child.createdAt.toLocaleString("en-US", { dateStyle: "short",
+            timeStyle: "short", }); %>
+          </p>
         </li>
 
-        <% }); %>
-      </ul>
-      <ul>
-        <% folder.files.forEach((file) => { %>
+        <% }); %> <% folder.files.forEach((file) => { %>
         <li>
-          <i class="fa-solid fa-file"></i>
-          <%= file.title %> <%= file.uploadedAt.toLocaleString("en-US", {
-          dateStyle: "short", timeStyle: "short", }); %>
-          <button><a href="/<%= file.link %>/"><%= file.title %></a></button>
+          <p>
+            <i class="fa-solid fa-file"></i>
+            <a href="/<%= file.link %>/"><%= file.title %></a>
+          </p>
+          <p><%= format(file.size) %></p>
+          <p>
+            <%= file.uploadedAt.toLocaleString("en-US", { dateStyle: "short",
+            timeStyle: "short", }); %>
+          </p>
         </li>
 
         <% }); %>

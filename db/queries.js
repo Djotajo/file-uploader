@@ -111,13 +111,14 @@ async function getFolderById(id) {
   }
 }
 
-async function postNewFile(title, link, uploaderId, parentId) {
+async function postNewFile(title, link, uploaderId, parentId, size) {
   try {
     const data = {
       title,
       link,
       uploader: { connect: { id: uploaderId } },
       parent: { connect: { id: parentId } },
+      size,
     };
 
     // if (parentId) {

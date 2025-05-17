@@ -104,3 +104,31 @@ footer {
   max-width: 90%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 }
+
+.folders-and-files {
+  width: 80%;
+  display: grid;
+  /* grid-template-columns: 5% auto 20% 20% 20%; */
+  grid-template-columns: auto;
+  grid-auto-rows: auto;
+}
+
+.folders-and-files > li {
+  width: 80%;
+  display: grid;
+  grid-template-columns: auto 20% 20% 20%;
+  grid-auto-rows: auto;
+  padding: 5px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px salmon;
+}
+
+.folders-and-files > li > :first-child {
+  text-align: left;
+  margin-left: 1em;
+}
+
+.folders-and-files > li:first-child {
+  background-color: bisque;
+}

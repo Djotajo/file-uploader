@@ -38,6 +38,7 @@ model File {
   uploaderId String
   parent     Folder   @relation(fields: [parentId], references: [id])
   parentId   String
+  size       Int?
 
   @@unique([title, parentId])
 }
