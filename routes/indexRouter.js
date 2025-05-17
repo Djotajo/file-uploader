@@ -5,6 +5,7 @@ const indexRouter = Router();
 const db = require("../db/queries");
 
 const upload = require("../middleware/upload");
+const supabase = require("../middleware/supabase");
 
 const formatFileSize = require("../middleware/size");
 
@@ -52,21 +53,42 @@ indexRouter.post(
   "/:parentId/upload",
   upload.single("file"),
   async function (req, res, next) {
+    const file = req.file;
+    if (!file) return res.status(400).send("No file uploaded");
+
+    const fileName = `${Date.now()}-${file.originalname}`;
+
+    const { data, error } = await supabase.storage
+      .from("file-uploader")
+      .upload(fileName, file.buffer, {
+        contentType: file.mimetype,
+      });
+
+    if (error) {
+      console.error(error);
+      return res.status(500).send("Failed to upload to Supabase");
+    }
+
+    const fileUrl = `https://wowijotfrwfnvnjpvvre.supabase.co/storage/v1/object/public/file-uploader/${fileName}`;
+    // res.send({ fileUrl });
+
     const { parentId } = req.body;
     console.log(req.file);
     await db.postNewFile(
-      req.file.filename,
-      req.file.destination,
+      fileName,
+      fileUrl,
       req.user.id,
       parentId,
       req.file.size
     );
     const folder = await db.getFolderById(parentId);
-    res.render("index", {
-      user: req.user,
-      folder: folder,
-      format: formatFileSize,
-    });
+
+    res.redirect(`/${parentId}/`);
+    // res.redirect("index", {
+    //   user: req.user,
+    //   folder: folder,
+    //   format: formatFileSize,
+    // });
   }
 );
 
