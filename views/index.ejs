@@ -96,6 +96,12 @@
             <%= file.uploadedAt.toLocaleString("en-US", { dateStyle: "short",
             timeStyle: "short", }); %>
           </p>
+          <form
+            action="/<%= folder.id %>/delete-file/<%= file.id %>"
+            method="post"
+          >
+            <button type="submit">Delete</button>
+          </form>
         </li>
         <% }); %>
       </ul>

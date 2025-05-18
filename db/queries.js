@@ -134,10 +134,17 @@ async function postNewFile(title, link, uploaderId, parentId, size) {
   }
 }
 
-// async function postDeleteMessage(id) {
-//   await sql`DELETE FROM messages WHERE id = ${id}`;
-//   return;
-// }
+async function postDeleteFile(id) {
+  try {
+    await prisma.file.delete({
+      where: { id: Number(id) },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Database error:", error);
+    return { success: false, error };
+  }
+}
 
 module.exports = {
   postNewUser,
@@ -148,4 +155,5 @@ module.exports = {
   getRootFolder,
   getFolderById,
   postNewFile,
+  postDeleteFile,
 };
