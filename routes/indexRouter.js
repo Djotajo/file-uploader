@@ -77,6 +77,23 @@ indexRouter.post("/:folderId/delete-file/:fileId", async (req, res) => {
   }
 });
 
+indexRouter.post("/:folderId/delete-folder/:childId", async (req, res) => {
+  try {
+    const { folderId, childId } = req.params;
+    const result = await db.postDeleteFolder(childId);
+
+    const folder = await db.getFolderById(folderId);
+    res.render("index", {
+      user: req.user,
+      folder: folder,
+      format: formatFileSize,
+    });
+  } catch (error) {
+    console.error("Error fetching types:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 indexRouter.post("/:parentId/add-folder", async (req, res) => {
   try {
     const { title, parentId } = req.body;

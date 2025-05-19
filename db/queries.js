@@ -146,6 +146,18 @@ async function postDeleteFile(id) {
   }
 }
 
+async function postDeleteFolder(id) {
+  try {
+    await prisma.folder.delete({
+      where: { id: id },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Database error:", error);
+    return { success: false, error };
+  }
+}
+
 module.exports = {
   postNewUser,
   getUser,
@@ -156,4 +168,5 @@ module.exports = {
   getFolderById,
   postNewFile,
   postDeleteFile,
+  postDeleteFolder,
 };

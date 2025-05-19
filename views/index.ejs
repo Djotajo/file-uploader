@@ -83,6 +83,12 @@
             <%= child.createdAt.toLocaleString("en-US", { dateStyle: "short",
             timeStyle: "short", }); %>
           </p>
+          <form
+            action="/<%= folder.id %>/delete-folder/<%= child.id %>"
+            method="post"
+          >
+            <button type="submit">Delete</button>
+          </form>
         </li>
 
         <% }); %> <% folder.files.forEach((file) => { %>
