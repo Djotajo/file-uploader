@@ -16,7 +16,9 @@
       <h1><%= user.username %>'s space</h1>
       <br />
       <% if (folder) {%> <% if (folder.parentId) {%>
-      <button><a href="/<%= folder.parentId %>/">Go back</a></button>
+      <a href="/<%= folder.parentId %>/" class="go-back-button">
+        <i class="fa-solid fa-arrow-left"></i> Go Back
+      </a>
       <% }; %>
       <!-- Button to open modal -->
 
@@ -37,7 +39,9 @@
 
           <input type="hidden" name="parentId" value="<%= folder.id %>" />
           <span id="file-name" style="font-size: 14px">No file chosen</span>
-          <button type="submit" class="submit-btn">Post</button>
+          <button type="submit" class="submit-btn" id="upload-btn" disabled>
+            Upload
+          </button>
         </form>
       </nav>
 
@@ -114,7 +118,9 @@
 
       <% }%>
       <br />
-      <a href="/logout">LOG OUT</a>
+      <a href="/logout" class="logout-button">
+        <i class="fa-solid fa-right-from-bracket"></i> Log Out
+      </a>
       <% } else { %>
       <h1>Please log in stranger. This is a members only zone.</h1>
       <form action="/login" method="POST">
@@ -146,12 +152,15 @@
 
     const fileInput = document.querySelector('input[type="file"]');
     const fileNameSpan = document.getElementById("file-name");
+    const uploadBtn = document.getElementById("upload-btn");
 
     fileInput.addEventListener("change", () => {
       if (fileInput.files.length > 0) {
         fileNameSpan.textContent = fileInput.files[0].name;
+        uploadBtn.disabled = false;
       } else {
-        fileNameSpan.textContent = "";
+        fileNameSpan.textContent = "No file chosen";
+        uploadBtn.disabled = true;
       }
     });
   </script>

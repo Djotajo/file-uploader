@@ -105,6 +105,10 @@ footer {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 }
 
+.modal-content form > * {
+  margin: 1em;
+}
+
 .folders-and-files {
   width: 60%;
   display: grid;
@@ -191,4 +195,49 @@ nav {
   overflow: hidden;
   text-overflow: ellipsis;
   vertical-align: middle;
+}
+
+.go-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.go-back-button:hover {
+  background-color: #e0e0e0;
+  color: #000;
+}
+
+.logout-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background-color: #dc3545; /* Bootstrap-style red */
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+:disabled {
+  background-color: grey;
+}
+
+:disabled:hover {
+  background-color: grey;
 }
