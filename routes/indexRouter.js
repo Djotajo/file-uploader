@@ -27,7 +27,6 @@ indexRouter.get("/logout", (req, res, next) => {
 
 indexRouter.get("/", async (req, res) => {
   if (req.user) {
-    console.log(req.user);
     const root = await db.getRootFolder(req.user.id);
     res.render("index", {
       user: req.user,
@@ -64,7 +63,6 @@ indexRouter.post("/:folderId/delete-file/:fileId", async (req, res) => {
   try {
     const { folderId, fileId } = req.params;
     const result = await db.postDeleteFile(fileId);
-    console.log(result);
     const folder = await db.getFolderById(folderId);
     res.render("index", {
       user: req.user,
@@ -134,7 +132,6 @@ indexRouter.post(
     // res.send({ fileUrl });
 
     const { parentId } = req.body;
-    console.log(req.file);
     await db.postNewFile(
       fileName,
       fileUrl,

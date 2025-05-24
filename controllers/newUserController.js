@@ -2,7 +2,6 @@ const db = require("../db/queries");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 
-const alphaErr = "must only contain letters.";
 const lengthErr = "must be between 1 and 10 characters.";
 const passErr =
   "must be at least 8 characters long and include 1 lowercase letter, 1 uppercase letter, 1 number, and 1 symbol.";
@@ -10,8 +9,6 @@ const passErr =
 const validateUser = [
   body("username")
     .trim()
-    .isAlpha()
-    .withMessage(`Username ${alphaErr}`)
     .isLength({ min: 1, max: 10 })
     .withMessage(`Username ${lengthErr}`),
   body("password")
