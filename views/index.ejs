@@ -38,7 +38,7 @@
           </label>
 
           <input type="hidden" name="parentId" value="<%= folder.id %>" />
-          <span id="file-name" style="font-size: 14px">No file chosen</span>
+          <span id="file-name" style="font-size: 14px">2MB max size</span>
           <button type="submit" class="submit-btn" id="upload-btn" disabled>
             Upload
           </button>
@@ -159,7 +159,7 @@
         fileNameSpan.textContent = fileInput.files[0].name;
         uploadBtn.disabled = false;
       } else {
-        fileNameSpan.textContent = "No file chosen";
+        fileNameSpan.textContent = "2MB max size";
         uploadBtn.disabled = true;
       }
     });
